@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4254864870197736149}
   - component: {fileID: 3397090265759721705}
   - component: {fileID: 8743186547750921778}
-  - component: {fileID: 8935690415096319423}
   - component: {fileID: 7680064894972585677}
   m_Layer: 0
   m_Name: WaveBox
@@ -63,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6cde600f568859b4f99a153b4180d2ac, type: 2}
+  - {fileID: 2100000, guid: 0fdf380b1269cf74dae5e4e9f6653c29, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,18 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8935690415096319423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1462291057866125034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f866ea0ff190d504fac349d02d673710, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7680064894972585677
 MonoBehaviour:
   m_ObjectHideFlags: 0

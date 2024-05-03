@@ -13,12 +13,19 @@ public class WaveControl : MonoBehaviour
     {
         waveMaterial = gameObject.GetComponent<Renderer>().material;
         sourceCount = 1;
-        instance = this;
+        instance = this;        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        setPlaneWaves();
+    }
+
+    private void setPlaneWaves()
+    {
+        Vector3 sourceLocalPosition = planeSources[0].gameObject.transform.InverseTransformPoint(transform.position);
+        Vector4 waveData = new Vector4(sourceLocalPosition.x, sourceLocalPosition.y, sourceLocalPosition.z, .01f);
+        waveMaterial.SetVector("_PlaneSource1", waveData);
     }
 }

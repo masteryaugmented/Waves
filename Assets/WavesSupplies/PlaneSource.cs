@@ -25,6 +25,5 @@ public class PlaneSource : MonoBehaviour
         Vector3 direction = boxPosition - transform.position;
         Quaternion rotationTowardsBox = Quaternion.LookRotation(direction);
         visual.transform.rotation = rotationTowardsBox;
-
     }
 }

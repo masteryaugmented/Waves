@@ -1,6 +1,7 @@
 Shader "Unlit/WaveShader" {
     Properties{
-        _PlaneSource1("PlaneSource1", Float) = (1,2,3,5)
+        _PlaneSource1("PlaneSource1", Float) = (0,0,0,0)
+        _ObjectScale("ObjectScale", Float) = (0,0,0)
 
     }
         SubShader
@@ -34,6 +35,7 @@ Shader "Unlit/WaveShader" {
                 float3 vectorToSurface : TEXCOORD1;
             };
             float4 _PlaneSource1;
+            float4 _ObjectScale;
 
             //Vertex shader
             Interpolators vert(MeshData v) {
@@ -67,12 +69,13 @@ Shader "Unlit/WaveShader" {
 
             float fieldOfPlaneWave(float3 position, float4 planeWaveData) {
                 float t = _Time[1];
+                float4 scale = _ObjectScale;
                 float speed = 50;
                 float3 k = planeWaveData.xyz;
                 float kMag = length(k);
                 float omega = speed / kMag;
                 float intensity = planeWaveData.w;
-                float field = intensity * sin(dot(k, position) - omega * t);
+                float field = intensity * sin(dot(k*scale, position) - omega * t);
                 return field;
             }
 
@@ -80,14 +83,13 @@ Shader "Unlit/WaveShader" {
                 float value = 0;
                 float4 p1 = _PlaneSource1;
                 value += fieldOfPlaneWave(position, _PlaneSource1);
+                float alphaScale = 9000;
 
-                if (value < 0) {
-                    float4 color = { value, 0, 0, value };
-                    return color;
+                if (value > 0) {
+                    return float4(value, 0, 0, alphaScale*value);
                 }
                 else {
-                    float4 color = { 0, 0, value, value };
-                    return color;
+                    return float4(0, 0, -value, -alphaScale*value);
                 }
             }            
 

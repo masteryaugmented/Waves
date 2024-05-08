@@ -25,10 +25,11 @@ public class WaveControl : MonoBehaviour
     private void setPlaneWaves()
     {
         float scale = 4f;
-        Vector3 sourceLocalPosition = -scale*planeSources[0].gameObject.transform.localPosition.normalized;
+        Vector3 normalizedK = -scale*planeSources[0].gameObject.transform.localPosition.normalized;
         
-        Vector4 waveData = new Vector4(sourceLocalPosition.x, sourceLocalPosition.y, sourceLocalPosition.z, .002f);
+        Vector4 waveData = new Vector4(normalizedK.x, normalizedK.y, normalizedK.z, .002f);
         waveData = waveData * scale;
         waveMaterial.SetVector("_PlaneSource1", waveData);
+        waveMaterial.SetVector("_ObjectScale", gameObject.transform.localScale);
     }
 }

@@ -1,6 +1,5 @@
 Shader "Unlit/WaveShader" {
     Properties{
-        _Wavenumber("Wavenumber", Float) = 3
         _PlaneSource1("PlaneSource1", Float) = (1,2,3,5)
 
     }
@@ -34,7 +33,6 @@ Shader "Unlit/WaveShader" {
                 float3 objectVertex : TEXCOORD0;
                 float3 vectorToSurface : TEXCOORD1;
             };
-            float _Wavenumber;
             float4 _PlaneSource1;
 
             //Vertex shader
@@ -69,7 +67,7 @@ Shader "Unlit/WaveShader" {
 
             float fieldOfPlaneWave(float3 position, float4 planeWaveData) {
                 float t = _Time[1];
-                float speed = 10;
+                float speed = 50;
                 float3 k = planeWaveData.xyz;
                 float kMag = length(k);
                 float omega = speed / kMag;
@@ -82,13 +80,16 @@ Shader "Unlit/WaveShader" {
                 float value = 0;
                 float4 p1 = _PlaneSource1;
                 value += fieldOfPlaneWave(position, _PlaneSource1);
-                
-                float4 color = { value, 0, 0, value };
 
-                return color;
-            }
-
-            
+                if (value < 0) {
+                    float4 color = { value, 0, 0, value };
+                    return color;
+                }
+                else {
+                    float4 color = { 0, 0, value, value };
+                    return color;
+                }
+            }            
 
             //Fragment shader
             fixed4 frag(Interpolators i) : SV_Target {

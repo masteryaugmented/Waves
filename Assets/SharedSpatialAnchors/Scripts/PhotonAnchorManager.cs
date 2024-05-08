@@ -55,7 +55,7 @@ public class PhotonAnchorManager : PhotonPun.MonoBehaviourPunCallbacks
     private byte[] _getUuidBuffer = new byte[UuidSize];
     private byte[] _fakePacket = new byte[1];
     private string _oculusUsername;
-    private string nomeDaSala = "sala";
+    public string nomeDaSala;
     private ulong _oculusUserId;
     private Guid _fakeUuid;
 

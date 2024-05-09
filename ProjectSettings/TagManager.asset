@@ -4,29 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - SamplesInfoPanel
-  - laser
-  - Plane Mirror
-  - Plane Mirror Object
-  - Concave Lens Object
-  - Convex Lens
-  - Concave Lens
-  - Bi-Convex Lens
-  - Bi_Concave
-  - Bi-Concave Lens
-  - Prism
-  - Bi-Convex Lens Object
-  - Bi-Concave Lens Object
-  - Prism Object
-  - Lens
-  - Lens Object
-  - Laser Pointer Object
-  - electron
-  - screen
-  - slit
-  - deflector
+  - WaveBox
   - ProjectRoot
-  - Anchor
   layers:
   - Default
   - TransparentFX

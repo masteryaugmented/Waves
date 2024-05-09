@@ -70,10 +70,10 @@ Shader "Unlit/WaveShader" {
             float fieldOfPlaneWave(float3 position, float4 planeWaveData) {
                 float t = _Time[1];
                 float4 scale = _ObjectScale;
-                float speed = 50;
+                float speed = .1;
                 float3 k = planeWaveData.xyz;
                 float kMag = length(k);
-                float omega = speed / kMag;
+                float omega = speed * kMag;
                 float intensity = planeWaveData.w;
                 float field = intensity * sin(dot(k*scale, position) - omega * t);
                 return field;
@@ -83,14 +83,15 @@ Shader "Unlit/WaveShader" {
                 float value = 0;
                 float4 p1 = _PlaneSource1;
                 value += fieldOfPlaneWave(position, _PlaneSource1);
-                float alphaScale = 9000;
+                float alphaScale = 1000;
 
                 if (value > 0) {
                     return float4(value, 0, 0, alphaScale*value);
                 }
-                else {
-                    return float4(0, 0, -value, -alphaScale*value);
+                if (value <0) {
+                    return float4(0, .0001, -value, -alphaScale*value);
                 }
+                return float4(0, 0, 0, 0);
             }            
 
             //Fragment shader

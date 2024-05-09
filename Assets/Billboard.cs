@@ -7,20 +7,16 @@ public class Billboard : MonoBehaviour
     [Range(1f, 10000f)]
     public float smoothingFactor;
     public Transform targetTransform;
+    public string targetTag;
     private Camera mainCamera;
     private Vector3 z = new Vector3(0, 0, 1);
-    private Vector3 y = new Vector3(0, 1, 0);
-    private Vector3 x = new Vector3(1, 0, 0);
 
     void Start()
     {
-        mainCamera = Camera.main;
-
-        // Check if the main camera exists
-        if (mainCamera == null)
+        if (targetTransform == null)
         {
-            Debug.LogError("Main camera not found!");
-        }
+            targetTransform = GameObject.FindGameObjectWithTag(targetTag).transform;
+        }        
     }
     void Update()
     {

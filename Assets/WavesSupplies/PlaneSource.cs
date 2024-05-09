@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class PlaneSource : MonoBehaviour
 {
-    private WaveControl waveControler;
-    public GameObject visual;
+    [HideInInspector]
+    public float kMag = 50, intensity = .01f;
+    [HideInInspector]
+    public Vector4 waveData;
     void Start()
     {
-        waveControler = WaveControl.instance;
-        waveControler.planeSources.Add(this);
-        //waveControler.planeSources.Remove(this);
+        WaveControl.instance.planeSources.Add(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-       
-    }   
+        setData();
+    }
+    
+    private void setData()
+    {        
+        Vector3 normalizedK = kMag * (WaveControl.instance.transform.localPosition - gameObject.transform.localPosition).normalized;
+        waveData = new Vector4(normalizedK.x, normalizedK.y, normalizedK.z, intensity);
+    }
 }

@@ -52,7 +52,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dc9116f281abe6428c2695faa9d75d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visual: {fileID: 8231999802969418651}
+  kMag: 50
+  intensity: 0.01
+  waveData: {x: 0, y: 0, z: 0, w: 0}
 --- !u!54 &1683230730067474477
 Rigidbody:
   m_ObjectHideFlags: 0

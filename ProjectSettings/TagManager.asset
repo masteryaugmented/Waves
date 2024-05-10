@@ -6,6 +6,8 @@ TagManager:
   tags:
   - WaveBox
   - ProjectRoot
+  - Anchor
+  - Simulation
   layers:
   - Default
   - TransparentFX

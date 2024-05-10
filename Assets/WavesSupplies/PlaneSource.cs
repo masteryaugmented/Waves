@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class PlaneSource : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class PlaneSource : MonoBehaviour
     void Start()
     {
         WaveControl.instance.planeSources.Add(this);
+        gameObject.transform.parent = GameObject.FindGameObjectWithTag("Simulation").transform;
     }
 
     // Update is called once per frame

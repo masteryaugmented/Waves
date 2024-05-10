@@ -10,12 +10,14 @@ public class WaveControl : MonoBehaviour
     private Material waveMaterial;
     private int planeSourceCount;
     public static WaveControl instance;
+    private PhotonView pv;
     private void Awake()
     {
         waveMaterial = gameObject.GetComponent<Renderer>().material;
         planeSourceCount = 0;
         instance = this;
-        newPlaneSource();
+        pv = GetComponent<PhotonView>();
+        //newPlaneSource();
     }
 
     // Update is called once per frame
@@ -33,9 +35,19 @@ public class WaveControl : MonoBehaviour
 
     public void newPlaneSource()
     {
+        Vector3 localOffset = new Vector3(1f, 0f, 0f);
+        Vector3 spawnPoint = gameObject.transform.TransformPoint(gameObject.transform.localPosition + localOffset);
+        PhotonNetwork.Instantiate("PlaneSource", spawnPoint, gameObject.transform.rotation);
+        planeSourceCount++;
+    }
+
+    [PunRPC]
+    private void newPlaneSourceRPC()
+    {
         Vector3 spawnPoint = gameObject.transform.TransformPoint(new Vector3(-.75f, 0f, 0f));
         PhotonNetwork.Instantiate("PlaneSource", spawnPoint, gameObject.transform.rotation).transform.parent=gameObject.transform.parent.transform;
         planeSourceCount++;
-
     }
+
+
 }

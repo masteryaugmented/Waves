@@ -86,7 +86,11 @@ public class CachedSharedAnchor : MonoBehaviour
 
     public void SaveLocal()
     {
-        SampleController.Instance.Log(nameof(SaveLocal));
+        if(SampleController.Instance != null)
+        {
+            SampleController.Instance.Log(nameof(SaveLocal));
+        }
+       
 
         if (_spatialAnchor == null)
         {
@@ -104,8 +108,11 @@ public class CachedSharedAnchor : MonoBehaviour
                 string anchorUuid = _spatialAnchor.Uuid.ToString();
                 PlayerPrefs.SetString("cached_anchor_uuid", anchorUuid);
                 PlayerPrefs.Save();
-
-                SampleController.Instance.Log("CachedSharedAnchor: SaveLocal: done, uuid: " + anchorUuid);
+                if (SampleController.Instance != null)
+                {
+                    SampleController.Instance.Log("CachedSharedAnchor: SaveLocal: done, uuid: " + anchorUuid);
+                }
+                
             }
         });
     }

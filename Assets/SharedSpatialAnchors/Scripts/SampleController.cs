@@ -77,7 +77,10 @@ public class SampleController : MonoBehaviour
         
     public void Log(string message, bool error = false)
     {
-
+        if(logText == null)
+        {
+            return;
+        }
         lineCount++;
         logLines.Add(message + "\n");
         if (logLines.Count > lineLimit)

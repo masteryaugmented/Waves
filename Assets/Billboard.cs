@@ -4,8 +4,8 @@ public class Billboard : MonoBehaviour
 {
     private float currentAngle;
     public float cutoffAngle;
-    [Range(1f, 10000f)]
-    public float smoothingFactor;
+    [Range(1f, 100f)]
+    public float smoothingFactor = 1f;
     public Transform targetTransform;
     public string targetTag;
     private Camera mainCamera;
@@ -28,7 +28,7 @@ public class Billboard : MonoBehaviour
         if (currentAngle > cutoffAngle)
         {
             float difference = currentAngle - cutoffAngle;
-            Vector3 newDirection = Vector3.RotateTowards(objectNormal, lookDirection, difference/smoothingFactor, 0.1f);
+            Vector3 newDirection = Vector3.RotateTowards(objectNormal, lookDirection, difference*Time.deltaTime/smoothingFactor, 0.1f);
             
             transform.rotation = Quaternion.LookRotation(newDirection);
         }

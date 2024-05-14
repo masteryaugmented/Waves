@@ -14,40 +14,49 @@ public class WaveControl : MonoBehaviour
     private void Awake()
     {
         waveMaterial = gameObject.GetComponent<Renderer>().material;
+        waveMaterial.SetVector("_ObjectScale", gameObject.transform.localScale);
         planeSourceCount = 0;
         instance = this;
         pv = GetComponent<PhotonView>();
-        //newPlaneSource();
     }
 
     // Update is called once per frame
     void Update()
     {
-        setPlaneWaves();
+        if (planeSourceCount > 0)
+        {
+            setPlaneWaves();
+        }
     }
 
     private void setPlaneWaves()
-    {       
-        Vector4 waveData = planeSources[0].waveData;
-        waveMaterial.SetVector("_PlaneSource1", waveData);
-        waveMaterial.SetVector("_ObjectScale", gameObject.transform.localScale);
+    {     
+        for(int i=0; i< planeSourceCount; i++)
+        {
+            Vector4 waveData = planeSources[i].waveData;
+            string propertyName = string.Format("_PlaneSource{0}", i.ToString());
+            waveMaterial.SetVector(propertyName, waveData);
+        }
     }
 
+    //called by button
     public void newPlaneSource()
     {
+        if(planeSourceCount >= 2)
+        {
+            return;
+        }
         Vector3 localOffset = new Vector3(1f, 0f, 0f);
         Vector3 spawnPoint = gameObject.transform.TransformPoint(gameObject.transform.localPosition + localOffset);
         PhotonNetwork.Instantiate("PlaneSource", spawnPoint, gameObject.transform.rotation);
-        planeSourceCount++;
     }
 
-    [PunRPC]
-    private void newPlaneSourceRPC()
+    //called by spawned source
+    public void addPlaneSource(PlaneSource newSource)
     {
-        Vector3 spawnPoint = gameObject.transform.TransformPoint(new Vector3(-.75f, 0f, 0f));
-        PhotonNetwork.Instantiate("PlaneSource", spawnPoint, gameObject.transform.rotation).transform.parent=gameObject.transform.parent.transform;
+        planeSources.Add(newSource);
         planeSourceCount++;
+        waveMaterial.SetInt("_PlaneSourceCount", planeSourceCount);
     }
-
 
 }

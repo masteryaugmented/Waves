@@ -9,9 +9,10 @@ public class PlaneSource : MonoBehaviour
     public float kMag = 50, intensity = .01f;
     [HideInInspector]
     public Vector4 waveData;
+    public OVRHand righthand;
     void Start()
     {
-        WaveControl.instance.planeSources.Add(this);
+        WaveControl.instance.addPlaneSource(this);
         gameObject.transform.parent = GameObject.FindGameObjectWithTag("Simulation").transform;
     }
 
@@ -26,4 +27,10 @@ public class PlaneSource : MonoBehaviour
         Vector3 normalizedK = kMag * (WaveControl.instance.transform.localPosition - gameObject.transform.localPosition).normalized;
         waveData = new Vector4(normalizedK.x, normalizedK.y, normalizedK.z, intensity);
     }
+
+    private void selectWavelength()
+    {
+        
+    }
+
 }

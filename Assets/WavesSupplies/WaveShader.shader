@@ -1,6 +1,8 @@
 Shader "Unlit/WaveShader" {
     Properties{
-        _PlaneSource1("PlaneSource1", Float) = (0,0,0,0)
+        _PlaneSourceCount("PlaneSourceCount", Int) = 0
+        _PlaneSource1("PlaneSource0", Float) = (0,0,0,0)
+        _PlaneSource2("PlaneSource1", Float) = (0,0,0,0)
         _ObjectScale("ObjectScale", Float) = (0,0,0)
 
     }
@@ -34,6 +36,8 @@ Shader "Unlit/WaveShader" {
                 float3 objectVertex : TEXCOORD0;
                 float3 vectorToSurface : TEXCOORD1;
             };
+            int _PlaneSourceCount;
+            float4 _PlaneSource0;
             float4 _PlaneSource1;
             float4 _ObjectScale;
 
@@ -80,9 +84,19 @@ Shader "Unlit/WaveShader" {
             }
 
             float4 colorFunction(float3 position) {
+                // block to calculate field value
                 float value = 0;
-                float4 p1 = _PlaneSource1;
-                value += fieldOfPlaneWave(position, _PlaneSource1);
+                if (_PlaneSourceCount >= 1) {
+                    float4 p1 = _PlaneSource0;
+                    value += fieldOfPlaneWave(position, _PlaneSource0);
+                }
+                if (_PlaneSourceCount >= 2) {
+                    float4 p2 = _PlaneSource1;
+                    value += fieldOfPlaneWave(position, _PlaneSource1);
+                }
+
+
+                // block sets color from field value
                 float alphaScale = 1000;
 
                 if (value > 0) {

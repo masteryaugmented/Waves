@@ -8,6 +8,8 @@ TagManager:
   - ProjectRoot
   - Anchor
   - Simulation
+  - LeftIndexTip
+  - RightIndexTip
   layers:
   - Default
   - TransparentFX

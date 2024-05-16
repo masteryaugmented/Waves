@@ -212,6 +212,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6500206787777578131}
+  - component: {fileID: 1423703540904864422}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -235,6 +236,22 @@ Transform:
   m_Father: {fileID: 5817755784933841710}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1423703540904864422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4839234110130269186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b54eb294d54a09049a233a8a4469a289, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cutoffAngle: 10
+  smoothingFactor: 1
+  targetTransform: {fileID: 0}
+  targetTag: MainCamera
 --- !u!1 &6436267853925966014
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,6 +352,10 @@ PrefabInstance:
       propertyPath: _width
       value: 3.18
       objectReference: {fileID: 0}
+    - target: {fileID: 1358645684898642115, guid: 4e935c0b09280594cbca62e3167f120d, type: 3}
+      propertyPath: targetTag
+      value: MainCamera
+      objectReference: {fileID: 0}
     - target: {fileID: 3322911306184895784, guid: 4e935c0b09280594cbca62e3167f120d, type: 3}
       propertyPath: _whenRelease.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -419,7 +440,8 @@ PrefabInstance:
       propertyPath: m_LocalScale.x
       value: 3.18
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1358645684898642115, guid: 4e935c0b09280594cbca62e3167f120d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4e935c0b09280594cbca62e3167f120d, type: 3}
 --- !u!4 &6670714710570813142 stripped
 Transform:

@@ -18,6 +18,7 @@ public class WaveControl : MonoBehaviour
         planeSourceCount = 0;
         instance = this;
         pv = GetComponent<PhotonView>();
+        //newPlaneSource();
     }
 
     // Update is called once per frame

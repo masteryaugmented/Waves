@@ -5,11 +5,11 @@ using Photon.Pun;
 
 public class PlaneSource : MonoBehaviour
 {
+    public PointableSlider slider;
     [HideInInspector]
     public float kMag = 50, intensity = .01f;
     [HideInInspector]
     public Vector4 waveData;
-    public OVRHand righthand;
     void Start()
     {
         WaveControl.instance.addPlaneSource(this);
@@ -23,7 +23,8 @@ public class PlaneSource : MonoBehaviour
     }
     
     private void setData()
-    {        
+    {
+        kMag = -100 * slider.x + 110f;
         Vector3 normalizedK = kMag * (WaveControl.instance.transform.localPosition - gameObject.transform.localPosition).normalized;
         waveData = new Vector4(normalizedK.x, normalizedK.y, normalizedK.z, intensity);
     }

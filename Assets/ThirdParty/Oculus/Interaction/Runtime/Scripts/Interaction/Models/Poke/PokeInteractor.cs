@@ -95,7 +95,7 @@ namespace Oculus.Interaction
 
         [SerializeField]
         [Tooltip("The poke origin tracks the provided transform.")]
-        public Transform _pointTransform;
+        private Transform _pointTransform;
 
         [SerializeField]
         [Tooltip("(Meters, World) The radius of the sphere positioned at the origin.")]

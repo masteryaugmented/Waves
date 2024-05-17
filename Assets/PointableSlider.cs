@@ -2,22 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Oculus.Interaction;
-
+using Photon.Pun;
 public class PointableSlider : MonoBehaviour
 {
     private List<Transform> fingerTips;
     public Transform sliderKnob, panel;
+    private PhotonView knobPV;
     public float minimumZ;
-    [HideInInspector]
+    //[HideInInspector]
     public float x, y;
     private float xRange, yRange;
-    void Start()
+    public bool setX, setY;
+    void Awake()
     {
+        knobPV = sliderKnob.GetComponent<PhotonView>();
         fingerTips = new List<Transform>();
         fingerTips.Add(GameObject.FindGameObjectWithTag("LeftIndexTip").transform);
         fingerTips.Add(GameObject.FindGameObjectWithTag("RightIndexTip").transform);
         xRange = panel.transform.localScale.x / 2;
         yRange = panel.transform.localScale.y / 2;
+
     }
 
     void Update()
@@ -36,29 +40,47 @@ public class PointableSlider : MonoBehaviour
 
             if (fingerWithinDistance(fingerTipLocalPosition))
             {
-                SampleController.Instance.Log("scaledZ"+(fingerTipLocalPosition.z * transform.lossyScale.z).ToString());
-                SampleController.Instance.Log("scaledX"+(fingerTipLocalPosition.x * transform.lossyScale.x).ToString());
+                float xToSet = 0f, yToSet = 0f;
 
-
-                // if fingertip is to the right 
-                if(fingerTipLocalPosition.x > xRange)
+                if (setX)
                 {
-                    SampleController.Instance.Log("beyond right bound");
-                    sliderKnob.transform.localPosition = Vector3.right * xRange;
-                    return;
+                    if(fingerTipLocalPosition.x > xRange)
+                    {
+                        xToSet = xRange;
+                    }
+                    else if(fingerTipLocalPosition.x < -xRange)
+                    {
+                        xToSet = -xRange;
+                    }
+                    else
+                    {
+                        xToSet = fingerTipLocalPosition.x;
+                    }
+                }
+                if (setY)
+                {
+                    if (fingerTipLocalPosition.y > yRange)
+                    {
+                        yToSet = yRange;
+                    }
+                    else if (fingerTipLocalPosition.y < -yRange)
+                    {
+                        yToSet = -yRange;
+                    }
+                    else
+                    {
+                        yToSet = fingerTipLocalPosition.y;
+                    }
                 }
 
-                // if fingertip is to the left
-                if (fingerTipLocalPosition.x < -xRange)
+                if (knobPV.Owner.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
                 {
-                    SampleController.Instance.Log("beyond left bound");
-                    sliderKnob.transform.localPosition = Vector3.left * xRange;
-                    return;
+                    knobPV.TransferOwnership(PhotonNetwork.LocalPlayer.ActorNumber);
                 }
-                //if fingertip is in range
-                sliderKnob.transform.localPosition = Vector3.right * fingerTipLocalPosition.x;
-                return;
+
+                sliderKnob.transform.localPosition = new Vector3(xToSet, yToSet, 0f);               
             }
+
             SampleController.Instance.Log("Finger out of distance.");
         }
     }
@@ -75,9 +97,7 @@ public class PointableSlider : MonoBehaviour
 
     private void setExternalValues()
     {
-        x = 0.5f * (sliderKnob.transform.localPosition.x) + 0.5f;
-        y = 0.5f * (sliderKnob.transform.localPosition.y) + 0.5f;
+        x = 0.5f* (sliderKnob.transform.localPosition.x/xRange) + +0.5f;
+        y = 0.5f * (sliderKnob.transform.localPosition.y/yRange) + 0.5f;
     }
-
-
 }

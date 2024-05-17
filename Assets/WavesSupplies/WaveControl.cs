@@ -18,6 +18,7 @@ public class WaveControl : MonoBehaviour
         planeSourceCount = 0;
         instance = this;
         pv = GetComponent<PhotonView>();
+        SampleController.Instance.Log(PhotonNetwork.LocalPlayer.ActorNumber.ToString());
         //newPlaneSource();
     }
 

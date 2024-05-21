@@ -99,10 +99,10 @@ public class SampleController : MonoBehaviour
         // Console logging (goes to logcat on device)
 
         const string anchorTag = "SpatialAnchorsUnity: ";
-        if (error)
+        /*if (error)
             Debug.LogError(anchorTag + message);
         else
-            Debug.Log(anchorTag + message);
+            Debug.Log(anchorTag + message);*/
 
         //pageText.text = SampleController.Instance.logText.pageToDisplay + "/" + logText.textInfo.pageCount;
     }

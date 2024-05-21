@@ -96,7 +96,6 @@ public class PointableSlider : MonoBehaviour
     private void setExternalValues()
     {        
         x = 0.5f* (sliderKnob.transform.localPosition.x/xRange) + 0.5f;
-        y = 0.5f * (sliderKnob.transform.localPosition.y/yRange) + 0.5f;
-        Debug.Log(x);
+        y = 0.5f * (sliderKnob.transform.localPosition.y/yRange) + 0.5f;        
     }
 }

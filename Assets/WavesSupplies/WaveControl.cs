@@ -7,11 +7,10 @@ public class WaveControl : MonoBehaviour
 {
     [HideInInspector]
     public List<PlaneSource> planeSources;
-    [HideInInspector]
     public List<PointSource> pointSources;
     private List<string> sourceNamesShader;
     private Material waveMaterial;
-    private int planeSourceCount, pointSourceCount;
+    public int planeSourceCount, pointSourceCount;
     public static WaveControl instance;
     private PhotonView pv;
     private void Awake()
@@ -23,7 +22,8 @@ public class WaveControl : MonoBehaviour
         instance = this;
         pv = GetComponent<PhotonView>();
         SampleController.Instance.Log(PhotonNetwork.LocalPlayer.ActorNumber.ToString());
-        newPlaneSource();
+        /*newPlaneSource();
+        newPointSource();*/
     }
 
     // Update is called once per frame
@@ -32,6 +32,10 @@ public class WaveControl : MonoBehaviour
         if (planeSourceCount > 0)
         {
             setPlaneWaves();
+            
+        }
+        if (pointSourceCount > 0)
+        {
             setPointWaves();
         }
     }
@@ -48,10 +52,13 @@ public class WaveControl : MonoBehaviour
 
     private void setPointWaves()
     {
+        Debug.Log("fuck");
         for (int i = 0; i < pointSourceCount; i++)
-        {            
+        {
+            Debug.Log(i);
             string propertyName = string.Format("_PointSource{0}", i.ToString());
             waveMaterial.SetVector(propertyName, pointSources[i].waveData);
+            Debug.Log(pointSources[i].waveData);
         }
     }
 
@@ -77,7 +84,7 @@ public class WaveControl : MonoBehaviour
 
     public void newPointSource()
     {
-        if (planeSourceCount >= 2)
+        if (pointSourceCount >= 2)
         {
             return;
         }

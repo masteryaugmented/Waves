@@ -44,7 +44,7 @@ Shader "Unlit/WaveShader" {
             float4 _PlaneSource0;
             float4 _PlaneSource1;
 
-            int PointSourceCount;
+            int _PointSourceCount;
             float4 _PointSource0;
             float4 _PointSource1;
 
@@ -98,12 +98,14 @@ Shader "Unlit/WaveShader" {
                 float speed = .1;
                 float kMag = pointWaveData.w;
                 float omega = speed * kMag;
-                float3 scaledDisplacement = scale * (position - pointWaveData.xyz);
+                //float3 scaledDisplacement = scale * (position - pointWaveData.xyz);
+                float3 scaledDisplacement = scale * position - pointWaveData.xyz;
 
-                float eNaught = 0.01;
+                float eNaught = .01;
                 float rMag = length(scaledDisplacement);
-                return eNaught * sin(rMag * pointWaveData.w - omega * t);
                 
+                return eNaught * sin(rMag * pointWaveData.w - omega * t); 
+                //return 0.01*sin(1*t);
 
             }
 

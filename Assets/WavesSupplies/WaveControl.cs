@@ -5,10 +5,13 @@ using Photon.Pun;
 
 public class WaveControl : MonoBehaviour
 {
+    [HideInInspector]
     public List<PlaneSource> planeSources;
+    [HideInInspector]
+    public List<PointSource> pointSources;
     private List<string> sourceNamesShader;
     private Material waveMaterial;
-    private int planeSourceCount;
+    private int planeSourceCount, pointSourceCount;
     public static WaveControl instance;
     private PhotonView pv;
     private void Awake()
@@ -16,10 +19,11 @@ public class WaveControl : MonoBehaviour
         waveMaterial = gameObject.GetComponent<Renderer>().material;
         waveMaterial.SetVector("_ObjectScale", gameObject.transform.localScale);
         planeSourceCount = 0;
+        pointSourceCount = 0;
         instance = this;
         pv = GetComponent<PhotonView>();
         SampleController.Instance.Log(PhotonNetwork.LocalPlayer.ActorNumber.ToString());
-        //newPlaneSource();
+        newPlaneSource();
     }
 
     // Update is called once per frame
@@ -28,6 +32,7 @@ public class WaveControl : MonoBehaviour
         if (planeSourceCount > 0)
         {
             setPlaneWaves();
+            setPointWaves();
         }
     }
 
@@ -38,6 +43,15 @@ public class WaveControl : MonoBehaviour
             Vector4 waveData = planeSources[i].waveData;
             string propertyName = string.Format("_PlaneSource{0}", i.ToString());
             waveMaterial.SetVector(propertyName, waveData);
+        }
+    }
+
+    private void setPointWaves()
+    {
+        for (int i = 0; i < pointSourceCount; i++)
+        {            
+            string propertyName = string.Format("_PointSource{0}", i.ToString());
+            waveMaterial.SetVector(propertyName, pointSources[i].waveData);
         }
     }
 
@@ -59,6 +73,25 @@ public class WaveControl : MonoBehaviour
         planeSources.Add(newSource);
         planeSourceCount++;
         waveMaterial.SetInt("_PlaneSourceCount", planeSourceCount);
+    }
+
+    public void newPointSource()
+    {
+        if (planeSourceCount >= 2)
+        {
+            return;
+        }
+        Vector3 localOffset = new Vector3(-1f, 0f, 0f);
+        Vector3 spawnPoint = gameObject.transform.TransformPoint(gameObject.transform.localPosition + localOffset);
+        PhotonNetwork.Instantiate("PointSource", spawnPoint, gameObject.transform.rotation);
+    }
+
+    //called by spawned source
+    public void addPointSource(PointSource newSource)
+    {
+        pointSources.Add(newSource);
+        pointSourceCount++;
+        waveMaterial.SetInt("_PointSourceCount", pointSourceCount);
     }
 
 }

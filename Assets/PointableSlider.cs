@@ -21,7 +21,6 @@ public class PointableSlider : MonoBehaviour
         fingerTips.Add(GameObject.FindGameObjectWithTag("RightIndexTip").transform);
         xRange = panel.transform.localScale.x / 2;
         yRange = panel.transform.localScale.y / 2;
-
     }
 
     void Update()
@@ -73,14 +72,13 @@ public class PointableSlider : MonoBehaviour
                     }
                 }
 
-                if (knobPV.Owner.ActorNumber != PhotonNetwork.LocalPlayer.ActorNumber)
+                if (knobPV.Owner != PhotonNetwork.LocalPlayer)
                 {
-                    knobPV.TransferOwnership(PhotonNetwork.LocalPlayer.ActorNumber);
+                    knobPV.TransferOwnership(PhotonNetwork.LocalPlayer);
                 }
 
                 sliderKnob.transform.localPosition = new Vector3(xToSet, yToSet, 0f);               
             }
-
             SampleController.Instance.Log("Finger out of distance.");
         }
     }
@@ -96,8 +94,9 @@ public class PointableSlider : MonoBehaviour
     }
 
     private void setExternalValues()
-    {
-        x = 0.5f* (sliderKnob.transform.localPosition.x/xRange) + +0.5f;
+    {        
+        x = 0.5f* (sliderKnob.transform.localPosition.x/xRange) + 0.5f;
         y = 0.5f * (sliderKnob.transform.localPosition.y/yRange) + 0.5f;
+        Debug.Log(x);
     }
 }

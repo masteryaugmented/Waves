@@ -4,7 +4,7 @@ public class Billboard : MonoBehaviour
 {
     private float currentAngle;
     public float cutoffAngle;
-    [Range(1f, 100f)]
+    [Range(1f, 20f)]
     public float smoothingFactor = 1f;
     public Transform targetTransform;
     public string targetTag;

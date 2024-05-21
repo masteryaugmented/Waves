@@ -1,10 +1,14 @@
 Shader "Unlit/WaveShader" {
     Properties{
         _PlaneSourceCount("PlaneSourceCount", Int) = 0
-        _PlaneSource1("PlaneSource0", Float) = (0,0,0,0)
-        _PlaneSource2("PlaneSource1", Float) = (0,0,0,0)
-        _ObjectScale("ObjectScale", Float) = (0,0,0)
+        _PlaneSource0("PlaneSource0", Float) = (0,0,0,0)
+        _PlaneSource1("PlaneSource1", Float) = (0,0,0,0)
 
+        _PointSourceCount("PointSourceCount", Int) = 0
+        _PointSource0("PointSource0", Float) = (0,0,0,0)
+        _PointSource1("PointSource1", Float) = (0,0,0,0)
+
+        _ObjectScale("ObjectScale", Float) = (0,0,0)
     }
         SubShader
     {
@@ -39,6 +43,11 @@ Shader "Unlit/WaveShader" {
             int _PlaneSourceCount;
             float4 _PlaneSource0;
             float4 _PlaneSource1;
+
+            int PointSourceCount;
+            float4 _PointSource0;
+            float4 _PointSource1;
+
             float4 _ObjectScale;
 
             //Vertex shader
@@ -83,17 +92,38 @@ Shader "Unlit/WaveShader" {
                 return field;
             }
 
+            float fieldOfPointWave(float3 position, float4 pointWaveData) {
+                float t = _Time[1];
+                float4 scale = _ObjectScale;
+                float speed = .1;
+                float kMag = pointWaveData.w;
+                float omega = speed * kMag;
+                float3 scaledDisplacement = scale * (position - pointWaveData.xyz);
+
+                float eNaught = 0.01;
+                float rMag = length(scaledDisplacement);
+                return eNaught * sin(rMag * pointWaveData.w - omega * t);
+                
+
+            }
+
             float4 colorFunction(float3 position) {
                 // block to calculate field value
                 float value = 0;
                 if (_PlaneSourceCount >= 1) {
-                    float4 p1 = _PlaneSource0;
                     value += fieldOfPlaneWave(position, _PlaneSource0);
                 }
                 if (_PlaneSourceCount >= 2) {
-                    float4 p2 = _PlaneSource1;
                     value += fieldOfPlaneWave(position, _PlaneSource1);
                 }
+
+                if (_PointSourceCount >= 1) {
+                    value += fieldOfPointWave(position, _PointSource0);
+                }
+                if (_PointSourceCount >= 2) {
+                    value += fieldOfPointWave(position, _PointSource1);
+                }
+
 
 
                 // block sets color from field value

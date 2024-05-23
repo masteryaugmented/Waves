@@ -35,7 +35,6 @@ public class PointableSlider : MonoBehaviour
         foreach (Transform fingerTip in fingerTips)
         {
             Vector3 fingerTipLocalPosition = transform.InverseTransformPoint(fingerTip.position);
-            //if fingerWithinDistance(fingerTipLocalPosition)
 
             if (fingerWithinDistance(fingerTipLocalPosition))
             {

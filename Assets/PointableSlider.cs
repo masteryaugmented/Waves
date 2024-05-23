@@ -9,7 +9,7 @@ public class PointableSlider : MonoBehaviour
     public Transform sliderKnob, panel;
     private PhotonView knobPV;
     public float minimumZ;
-    //[HideInInspector]
+    [HideInInspector]
     public float x, y;
     private float xRange, yRange;
     public bool setX, setY;
@@ -103,10 +103,8 @@ public class PointableSlider : MonoBehaviour
     {        
         while(GameObject.FindGameObjectWithTag(fingerTag) == null)
         {
-            Debug.Log("not found");
             yield return null;
         }
-        Debug.Log("Found");
         fingerTips.Add(GameObject.FindGameObjectWithTag(fingerTag).transform);
     }
 }

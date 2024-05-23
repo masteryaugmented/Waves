@@ -101,10 +101,10 @@ Shader "Unlit/WaveShader" {
                 //float3 scaledDisplacement = scale * (position - pointWaveData.xyz);
                 float3 scaledDisplacement = scale * position - pointWaveData.xyz;
 
-                float eNaught = .01;
+                float eNaught = .003;
                 float rMag = length(scaledDisplacement);
                 
-                return eNaught * sin(rMag * pointWaveData.w - omega * t); 
+                return eNaught * sin(rMag * pointWaveData.w - omega * t)/rMag; 
                 //return 0.01*sin(1*t);
 
             }

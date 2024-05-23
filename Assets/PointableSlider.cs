@@ -5,7 +5,7 @@ using Oculus.Interaction;
 using Photon.Pun;
 public class PointableSlider : MonoBehaviour
 {
-    private List<Transform> fingerTips;
+    public List<Transform> fingerTips;
     public Transform sliderKnob, panel;
     private PhotonView knobPV;
     public float minimumZ;
@@ -17,8 +17,8 @@ public class PointableSlider : MonoBehaviour
     {
         knobPV = sliderKnob.GetComponent<PhotonView>();
         fingerTips = new List<Transform>();
-        fingerTips.Add(GameObject.FindGameObjectWithTag("LeftIndexTip").transform);
-        fingerTips.Add(GameObject.FindGameObjectWithTag("RightIndexTip").transform);
+        StartCoroutine(acquireFingerTip("LeftIndexTip"));
+        StartCoroutine(acquireFingerTip("RightIndexTip"));
         xRange = panel.transform.localScale.x / 2;
         yRange = panel.transform.localScale.y / 2;
     }
@@ -97,5 +97,16 @@ public class PointableSlider : MonoBehaviour
     {        
         x = 0.5f* (sliderKnob.transform.localPosition.x/xRange) + 0.5f;
         y = 0.5f * (sliderKnob.transform.localPosition.y/yRange) + 0.5f;        
+    }
+
+    private IEnumerator acquireFingerTip(string fingerTag)
+    {        
+        while(GameObject.FindGameObjectWithTag(fingerTag) == null)
+        {
+            Debug.Log("not found");
+            yield return null;
+        }
+        Debug.Log("Found");
+        fingerTips.Add(GameObject.FindGameObjectWithTag(fingerTag).transform);
     }
 }

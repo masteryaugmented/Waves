@@ -5,14 +5,12 @@ using Photon.Pun;
 
 public class WaveControl : MonoBehaviour
 {
-    [HideInInspector]
+    
     public List<PlaneSource> planeSources;
     public List<PointSource> pointSources;
-    private List<string> sourceNamesShader;
     private Material waveMaterial;
     public int planeSourceCount, pointSourceCount;
     public static WaveControl instance;
-    private PhotonView pv;
     private void Awake()
     {
         waveMaterial = gameObject.GetComponent<Renderer>().material;
@@ -20,7 +18,6 @@ public class WaveControl : MonoBehaviour
         planeSourceCount = 0;
         pointSourceCount = 0;
         instance = this;
-        pv = GetComponent<PhotonView>();
         SampleController.Instance.Log(PhotonNetwork.LocalPlayer.ActorNumber.ToString());
         /*newPlaneSource();
         newPointSource();*/
@@ -52,13 +49,10 @@ public class WaveControl : MonoBehaviour
 
     private void setPointWaves()
     {
-        Debug.Log("fuck");
-        for (int i = 0; i < pointSourceCount; i++)
+       for (int i = 0; i < pointSourceCount; i++)
         {
-            Debug.Log(i);
             string propertyName = string.Format("_PointSource{0}", i.ToString());
             waveMaterial.SetVector(propertyName, pointSources[i].waveData);
-            Debug.Log(pointSources[i].waveData);
         }
     }
 

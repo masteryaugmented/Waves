@@ -28,8 +28,7 @@ public class Billboard : MonoBehaviour
         if (currentAngle > cutoffAngle)
         {
             float difference = currentAngle - cutoffAngle;
-            Vector3 newDirection = Vector3.RotateTowards(objectNormal, lookDirection, difference*Time.deltaTime/smoothingFactor, 0.1f);
-            
+            Vector3 newDirection = Vector3.RotateTowards(objectNormal, lookDirection, difference*Time.deltaTime/smoothingFactor, 0.1f);            
             transform.rotation = Quaternion.LookRotation(newDirection);
         }
     }

@@ -18,7 +18,7 @@ public class Billboard : MonoBehaviour
             targetTransform = GameObject.FindGameObjectWithTag(targetTag).transform;
         }        
     }
-    void Update()
+    void LateUpdate()
     {
         Vector3 lookDirection = transform.position - targetTransform.position;
         Vector3 objectNormal = gameObject.transform.rotation * z;

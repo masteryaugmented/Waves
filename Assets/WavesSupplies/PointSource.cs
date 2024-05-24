@@ -24,9 +24,9 @@ public class PointSource : MonoBehaviour
 
     private void setData()
     {
+        Vector3 waveBoxPos = WaveControl.instance.gameObject.transform.localPosition;
         kMag = -100 * slider.x + 110f;
-        waveData = new  Vector4(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z, kMag);
-
+        waveData = new  Vector4(transform.localPosition.x-waveBoxPos.x, transform.localPosition.y - waveBoxPos.y, transform.localPosition.z - waveBoxPos.z, kMag);
     }
 
 }

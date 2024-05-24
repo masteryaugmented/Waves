@@ -7,7 +7,7 @@ public class GrabbableMotionConstrain : MonoBehaviour
     private Quaternion startRotation;
     private Vector3 startPosition;
     private float[] eulers;
-    public bool fixYpos, fixYrot;
+    public bool fixHeight, YrotationOnly;
     void Start()
     {
         startRotation = gameObject.transform.rotation;
@@ -20,13 +20,13 @@ public class GrabbableMotionConstrain : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (fixYrot)
+        if (YrotationOnly)
         {
             float rotationY = gameObject.transform.eulerAngles.y;
             gameObject.transform.rotation = Quaternion.Euler(eulers[0], rotationY, eulers[1]);
         }
         
-        if (fixYpos)
+        if (fixHeight)
         {
             gameObject.transform.position = new Vector3(gameObject.transform.position.x, startPosition.y, gameObject.transform.position.z);
         }

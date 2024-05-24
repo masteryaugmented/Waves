@@ -1,4 +1,4 @@
-Shader "Unlit/WaveShader" {
+Shader "Unlit/WaveShader2" {
     Properties{
         _PlaneSourceCount("PlaneSourceCount", Int) = 0
         _PlaneSource0("PlaneSource0", Float) = (0,0,0,0)
@@ -80,7 +80,7 @@ Shader "Unlit/WaveShader" {
                 return lerp(oMin, oMax, t);
             }
 
-            float fieldOfPlaneWave(float3 position, float4 planeWaveData) {
+            float2 fieldOfPlaneWave(float3 position, float4 planeWaveData) {
                 float t = _Time[1];
                 float4 scale = _ObjectScale;
                 float speed = .1;
@@ -88,8 +88,13 @@ Shader "Unlit/WaveShader" {
                 float kMag = length(k);
                 float omega = speed * kMag;
                 float intensity = planeWaveData.w;
-                float field = intensity * sin(dot(k * scale, position) - omega * t);
-                return field;
+                float sinVal = sin(dot(k * scale, position) - omega * t);
+                if (sinVal > .99) {
+                    return float2(0, 2);
+                }
+
+                float field = intensity * sinVal;
+                return float2(field, 0);
             }
 
             float fieldOfPointWave(float3 position, float4 pointWaveData) {
@@ -113,10 +118,15 @@ Shader "Unlit/WaveShader" {
                 // block to calculate field value
                 float value = 0;
                 if (_PlaneSourceCount >= 1) {
-                    value += fieldOfPlaneWave(position, _PlaneSource0);
+                    float2 p0 = fieldOfPlaneWave(position, _PlaneSource0);
+                    if (p0.y > 1) {
+                        float intensity = .02;
+                        return float4(intensity, intensity, intensity, 1);
+                    }
+                    value += fieldOfPlaneWave(position, _PlaneSource0).x;
                 }
                 if (_PlaneSourceCount >= 2) {
-                    value += fieldOfPlaneWave(position, _PlaneSource1);
+                    value += fieldOfPlaneWave(position, _PlaneSource1).x;
                 }
 
                 if (_PointSourceCount >= 1) {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Oculus.Interaction;
 
 public class PlaneSource : MonoBehaviour
 {
@@ -10,10 +11,13 @@ public class PlaneSource : MonoBehaviour
     public float kMag = 50, intensity = .01f;
     [HideInInspector]
     public Vector4 waveData;
+    protected Grabbable grabbable;
     void Start()
     {
         WaveControl.instance.addPlaneSource(this);
         gameObject.transform.parent = GameObject.FindGameObjectWithTag("Simulation").transform;
+        grabbable = GetComponent<Grabbable>();
+        grabbable.WhenPointerEventRaised += OnPointerEventRaised; 
     }
 
     // Update is called once per frame
@@ -29,9 +33,23 @@ public class PlaneSource : MonoBehaviour
         waveData = new Vector4(normalizedK.x, normalizedK.y, normalizedK.z, intensity);
     }
 
-    private void selectWavelength()
+    virtual public void OnPointerEventRaised(PointerEvent pointerEvent)
     {
-        
+        switch (pointerEvent.Type)
+        {
+            case PointerEventType.Select:
+                if (grabbable.SelectingPointsCount == 1)
+                {
+                    
+                }
+                break;
+            case PointerEventType.Unselect:
+                if (grabbable.SelectingPointsCount == 0)
+                {
+                    WaveControl.instance.planeSources.Remove(this);
+                    PhotonNetwork.Destroy(this.gameObject);
+                }
+                break;
+        }
     }
-
 }

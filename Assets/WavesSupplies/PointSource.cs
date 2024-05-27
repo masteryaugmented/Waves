@@ -10,6 +10,7 @@ public class PointSource : MonoBehaviour
     public float kMag = 50, intensity = .01f;
     [HideInInspector]
     public Vector4 waveData;
+
     void Start()
     {
         WaveControl.instance.addPointSource(this);

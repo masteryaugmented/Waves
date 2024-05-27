@@ -15,6 +15,7 @@ public class PlaneSource : MonoBehaviour
     void Start()
     {
         WaveControl.instance.addPlaneSource(this);
+        //WaveControl.instance.planeSources.Remove(this);
         gameObject.transform.parent = GameObject.FindGameObjectWithTag("Simulation").transform;
         grabbable = GetComponent<Grabbable>();
         grabbable.WhenPointerEventRaised += OnPointerEventRaised; 
@@ -25,7 +26,12 @@ public class PlaneSource : MonoBehaviour
     {
         setData();
     }
-    
+
+    private void OnDestroy()
+    {
+        WaveControl.instance.removePlaneSource(this);
+    }
+
     private void setData()
     {
         kMag = -100 * slider.x + 110f;
@@ -46,8 +52,11 @@ public class PlaneSource : MonoBehaviour
             case PointerEventType.Unselect:
                 if (grabbable.SelectingPointsCount == 0)
                 {
-                    WaveControl.instance.planeSources.Remove(this);
-                    PhotonNetwork.Destroy(this.gameObject);
+                    if(Vector3.Magnitude(gameObject.transform.position - WaveControl.instance.trashCan.transform.position) < 0.2f)
+                    {
+                        PhotonNetwork.Destroy(this.gameObject);
+                    }
+                    
                 }
                 break;
         }

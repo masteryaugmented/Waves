@@ -11,6 +11,7 @@ public class WaveControl : MonoBehaviour
     private Material waveMaterial;
     public int planeSourceCount, pointSourceCount;
     public static WaveControl instance;
+    public GameObject trashCan, cylinder;
     private void Awake()
     {
         waveMaterial = gameObject.GetComponent<Renderer>().material;
@@ -19,7 +20,7 @@ public class WaveControl : MonoBehaviour
         pointSourceCount = 0;
         instance = this;
         SampleController.Instance.Log(PhotonNetwork.LocalPlayer.ActorNumber.ToString());
-        newPlaneSource();
+        //newPlaneSource();
     }
 
     // Update is called once per frame
@@ -64,7 +65,9 @@ public class WaveControl : MonoBehaviour
         }
         Vector3 localOffset = new Vector3(1f, 0f, 0f);
         Vector3 spawnPoint = gameObject.transform.TransformPoint(gameObject.transform.localPosition + localOffset);
-        PhotonNetwork.Instantiate("PlaneSource", spawnPoint, gameObject.transform.rotation);
+        GameObject src = PhotonNetwork.Instantiate("PlaneSource", spawnPoint, gameObject.transform.rotation);
+        src.transform.localPosition += new Vector3(0.001f, 0, 0);
+
     }
 
     //called by spawned source
@@ -73,6 +76,15 @@ public class WaveControl : MonoBehaviour
         planeSources.Add(newSource);
         planeSourceCount++;
         waveMaterial.SetInt("_PlaneSourceCount", planeSourceCount);
+        setCylinderVisible();
+    }
+
+    public void removePlaneSource(PlaneSource src)
+    {
+        planeSources.Remove(src);
+        planeSourceCount--;
+        waveMaterial.SetInt("_PlaneSourceCount", planeSourceCount);
+        setCylinderVisible();
     }
 
     public void newPointSource()
@@ -92,6 +104,25 @@ public class WaveControl : MonoBehaviour
         pointSources.Add(newSource);
         pointSourceCount++;
         waveMaterial.SetInt("_PointSourceCount", pointSourceCount);
+        setCylinderVisible();
+    }
+
+    public void removePointSource(PointSource src)
+    {
+        pointSources.Remove(src);
+        pointSourceCount--;
+        waveMaterial.SetInt("_PointSourceCount", pointSourceCount);
+        setCylinderVisible();
+    }
+
+    private void setCylinderVisible()
+    {
+        if(planeSourceCount == 0 && pointSourceCount == 0)
+        {
+            cylinder.SetActive(true);
+            return;
+        }
+        cylinder.SetActive(false);
     }
 
 }

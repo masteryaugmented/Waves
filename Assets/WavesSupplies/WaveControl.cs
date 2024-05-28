@@ -28,8 +28,7 @@ public class WaveControl : MonoBehaviour
     {
         if (planeSourceCount > 0)
         {
-            setPlaneWaves();
-            
+            setPlaneWaves();            
         }
         if (pointSourceCount > 0)
         {
@@ -67,7 +66,6 @@ public class WaveControl : MonoBehaviour
         Vector3 spawnPoint = gameObject.transform.TransformPoint(gameObject.transform.localPosition + localOffset);
         GameObject src = PhotonNetwork.Instantiate("PlaneSource", spawnPoint, gameObject.transform.rotation);
         src.transform.localPosition += new Vector3(0.001f, 0, 0);
-
     }
 
     //called by spawned source
@@ -95,7 +93,8 @@ public class WaveControl : MonoBehaviour
         }
         Vector3 localOffset = new Vector3(-1f, 0f, 0f);
         Vector3 spawnPoint = gameObject.transform.TransformPoint(gameObject.transform.localPosition + localOffset);
-        PhotonNetwork.Instantiate("PointSource", spawnPoint, gameObject.transform.rotation);
+        GameObject src = PhotonNetwork.Instantiate("PointSource", spawnPoint, gameObject.transform.rotation);
+        src.transform.localPosition += new Vector3(0.001f, 0, 0);
     }
 
     //called by spawned source
@@ -124,5 +123,4 @@ public class WaveControl : MonoBehaviour
         }
         cylinder.SetActive(false);
     }
-
 }

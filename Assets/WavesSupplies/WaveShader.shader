@@ -40,14 +40,13 @@ Shader "Unlit/WaveShader" {
                 float3 objectVertex : TEXCOORD0;
                 float3 vectorToSurface : TEXCOORD1;
             };
+
             int _PlaneSourceCount;
             float4 _PlaneSource0;
             float4 _PlaneSource1;
-
             int _PointSourceCount;
             float4 _PointSource0;
             float4 _PointSource1;
-
             float4 _ObjectScale;
 
             //Vertex shader

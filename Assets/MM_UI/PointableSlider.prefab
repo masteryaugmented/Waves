@@ -343,6 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07466bad86168294bb01bc914bc2ab6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fingerTips: []
   sliderKnob: {fileID: 2290260981758160718}
   panel: {fileID: 8983598284527802681}
   minimumZ: 0.03
@@ -780,7 +781,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 2
   OwnershipTransfer: 1
   observableSearch: 2
   ObservedComponents:

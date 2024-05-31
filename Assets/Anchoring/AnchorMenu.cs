@@ -83,7 +83,6 @@ public class AnchorMenu : MonoBehaviour
         {
             return;
         }
-
         GameObject.FindGameObjectWithTag("ProjectRoot").transform.position = GameObject.FindGameObjectWithTag("Anchor").transform.position;
         GameObject.FindGameObjectWithTag("ProjectRoot").transform.rotation = GameObject.FindGameObjectWithTag("Anchor").transform.rotation;
     }

@@ -27,6 +27,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UIElements;
+using Photon.Pun;
 using static OVRSpatialAnchor;
 
 public class SharedAnchorLoader : MonoBehaviour
@@ -46,6 +47,7 @@ public class SharedAnchorLoader : MonoBehaviour
     private readonly HashSet<Guid> _loadedAnchorUuids = new HashSet<Guid>();
     private List<string> _locallySavedAnchorUuids = new List<string>();
     SharedAnchor colocationAnchor = null;
+    private PhotonView pv;
 
     private void Awake()
     {
@@ -67,6 +69,7 @@ public class SharedAnchorLoader : MonoBehaviour
                 _locallySavedAnchorUuids.Add(anchorIDString);
             }
         }
+        pv = GetComponent<PhotonView>();
     }
 
     private System.Collections.IEnumerator WaitingForAnchorLocalization()
